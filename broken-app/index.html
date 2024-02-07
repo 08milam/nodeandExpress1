@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub User Info</title>
+</head>
+<body>
+  <h1>GitHub User Info</h1>
+  <form id="githubForm">
+    <label for="usernames">Enter GitHub usernames (comma-separated):</label><br>
+    <input type="text" id="usernames" name="usernames" required><br><br>
+    <button type="submit">Get Info</button>
+  </form>
+  <div id="userInfo"></div>
+
+  <script>
+    document.getElementById('githubForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const usernames = document.getElementById('usernames').value.split(',').map(username => username.trim());
+
+      try {
+        const response = await fetch('http://localhost:3000/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ developers: usernames })
+        });
+
+        const data = await response.json();
+
+        const userInfoContainer = document.getElementById('userInfo');
+        userInfoContainer.innerHTML = ''; // Clear previous results
+
+        data.forEach(user => {
+          const userDiv = document.createElement('div');
+          userDiv.innerHTML = `<strong>Name:</strong> ${user.name}<br><strong>Bio:</strong> ${user.bio}<br><br>`;
+          userInfoContainer.appendChild(userDiv);
+        });
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    });
+  </script>
+</body>
+</html>
