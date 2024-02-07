@@ -1,10 +1,12 @@
 # Broken App Issues
 
 
-*Ensure that the Express application uses middleware to parse the request body.
+* use express instead of Flask to create the web server.
 
-*Use Promise.all to wait for all asynchronous requests to complete before processing the results.
+* We use axios to make HTTP requests instead of requests.
 
-*Handle errors properly in the asynchronous code.
+* We define an asynchronous function getUserInfo to fetch user information from the GitHub API.
 
-*Print the output to the console after sending the response.
+* define a POST route / to handle incoming requests. 
+This route expects a JSON payload containing an array of GitHub usernames under the key developers.
+It then retrieves information about each user and returns it as JSON.
